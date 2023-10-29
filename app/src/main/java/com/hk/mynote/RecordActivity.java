@@ -3,25 +3,36 @@ package com.hk.mynote;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hk.mynote.adapter.MenuAdapter;
+import com.hk.mynote.constans.Constants;
 import com.hk.mynote.dbhelper.MyDBHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 public class RecordActivity extends AppCompatActivity {
-
+    private ListView listView;
+    private MenuAdapter menuAdapter;
     private MyDBHelper myDBHelper;
-    private ImageView backHome, delete, saveNote;
-    private TextView title,showTime;
-    private EditText et_content;
+    private ImageView backHome, delete, saveNote,menu;
+    private EditText et_content, title;
     private Integer sendId;
+
+    private String[] menuList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +52,11 @@ public class RecordActivity extends AppCompatActivity {
         saveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String diaryTitle = title.getText().toString();
                 if (sendId != -1) {
                     myDBHelper = new MyDBHelper(RecordActivity.this, "note.db",null, 2);
-                    String top = title.getText().toString();
                     String content = et_content.getText().toString();
-                    boolean updateData = myDBHelper.updateData(sendId, top, content);
+                    boolean updateData = myDBHelper.updateData(sendId, diaryTitle, content);
                     if (!updateData) {
                         Toast.makeText(RecordActivity.this, "日记保存失败！", Toast.LENGTH_LONG).show();
                     } else {
@@ -59,7 +70,10 @@ public class RecordActivity extends AppCompatActivity {
                         Toast.makeText(RecordActivity.this, "内容不能为空！", Toast.LENGTH_LONG).show();
                     } else {
                         myDBHelper = new MyDBHelper(RecordActivity.this, "note.db",null, 2);
-                        boolean insert = myDBHelper.insertData("Note", content);
+                        if (diaryTitle.equals("")) {
+                            diaryTitle = "Diary";
+                        }
+                        boolean insert = myDBHelper.insertData(diaryTitle, content);
                         if (!insert) {
                             Toast.makeText(RecordActivity.this, "日记保存失败！", Toast.LENGTH_LONG).show();
                         } else {
@@ -87,6 +101,48 @@ public class RecordActivity extends AppCompatActivity {
             this.title.setText(title);
         }
 
+        // 菜单监听器
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int visibility = listView.getVisibility();
+                if (visibility == View.VISIBLE) {
+                    listView.setVisibility(View.GONE);
+                } else {
+                    listView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        // menuList栏点击监听器
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String item = (String) menuAdapter.getItem(position);
+                if (Arrays.asList(Constants.MENU).contains(item)) {
+                    String[] items = Constants.MENU;
+                    if (items[0].equals(item)) {
+                        et_content.setCursorVisible(false);  // 隐藏光标
+                        et_content.setFocusable(false);  // 失去焦点
+                        et_content.setFocusableInTouchMode(false);  // 虚拟键盘隐藏
+                        listView.setVisibility(View.GONE);
+                    }
+                    if (items[1].equals(item)) {
+                        et_content.setCursorVisible(true);
+                        et_content.setFocusable(true);  //
+                        et_content.setFocusableInTouchMode(true);
+                        listView.setVisibility(View.GONE);
+                    }
+                    if (items[2].equals(item)) {
+
+                    }
+                    if (items[3].equals(item)) {
+
+                    }
+                }
+            }
+        });
+
     }
 
     // 获取控件对象
@@ -95,8 +151,31 @@ public class RecordActivity extends AppCompatActivity {
         delete = findViewById(R.id.delete);
         saveNote = findViewById(R.id.save_note);
         title = findViewById(R.id.title);
-        showTime = findViewById(R.id.showTime);
         et_content = findViewById(R.id.content);
+        menuList = getResources().getStringArray(R.array.menus);
+        listView = findViewById(R.id.menu_list);
+        menu = findViewById(R.id.menu);
+
+        menuAdapter = new MenuAdapter(menuList, RecordActivity.this);
+        listView.setAdapter(menuAdapter);
     }
+
+
+    // 触摸事件，当触摸非listView时，listView菜单框关闭
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (listView.getVisibility() == View.VISIBLE) {
+                Rect outRect = new Rect();
+                listView.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)ev.getRawX(), (int)ev.getRawY())) {
+                    listView.setVisibility(View.GONE);
+                    return true;
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
 
 }

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MyNote</string>
+
+
+    <string-array name="menus">
+        <item>阅读模式</item>
+        <item>编辑模式</item>
+        <item>手写模式</item>
+        <item>切换音乐</item>
+    </string-array>
+
 </resources>

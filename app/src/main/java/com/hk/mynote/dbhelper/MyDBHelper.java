@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MyDBHelper extends SQLiteOpenHelper {
 
@@ -51,7 +52,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public boolean insertData(String title, String content) {
         ContentValues contentValues = new ContentValues();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         String time = sdf.format(date);
         contentValues.put("title", title);
         contentValues.put("content", content);
@@ -78,7 +80,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
         if (title!=null)contentValues.put("title", title);
         if (content!=null)contentValues.put("content", content);
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         String time = sdf.format(date);
         contentValues.put("time", time);
         int update = db.update("note", contentValues, "id=?", new String[]{String.valueOf(id)});

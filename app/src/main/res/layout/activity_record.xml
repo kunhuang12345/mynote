@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="#71E2EC"
-        android:layout_height="60dp">
+        android:layout_height="40dp">
 
         <ImageView
             android:id="@+id/backHome"
@@ -20,15 +20,28 @@
             android:paddingTop="10dp"
             android:layout_centerVertical="true"
             android:src="@drawable/back" />
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Note"
             android:textColor="@color/white"
-            android:textSize="30sp"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:id="@+id/title"
-            android:paddingTop="10dp"/>
+            android:hint="标题"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxLength="14"
+            android:background="@null"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/menu"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/menu"
+            android:paddingEnd="20sp"
+            />
     </RelativeLayout>
 
     <!--条件显示-->
@@ -43,12 +56,39 @@
         android:textSize="30sp"/>
 
     <!--日记内容-->
-    <EditText
-        android:id="@+id/content"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:hint="新的一天~" />
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/record_image"
+            android:scaleType="fitXY"/>
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:background="@null"
+            android:hint="新的一天~"
+            android:lineSpacingExtra="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="25sp" />
+
+        <ListView
+            android:id="@+id/menu_list"
+            android:layout_width="110dp"
+            android:layout_height="400dp"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
 
     <!--底部-->
     <LinearLayout

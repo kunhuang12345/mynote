@@ -23,6 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
+    private ImageView noticeView;
     private ImageView add;
     private MyDBHelper myDBHelper;
     private MyAdapter myAdapter;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        noticeView = findViewById(R.id.notice);
         listView = findViewById(R.id.listview);
         add = findViewById(R.id.image);
         add.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
 
                 return true;
+            }
+        });
+
+        // 备忘录监听器
+        noticeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
