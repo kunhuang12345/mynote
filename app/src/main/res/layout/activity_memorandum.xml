@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MemorandumActivity">
+
+    <RelativeLayout
+        android:id="@+id/memorandum_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/memorandum_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFF"
+            android:gravity="center"
+            android:text="Memorandum"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
+        <ImageView
+            android:id="@+id/memorandum_backHome"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back" />
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/memorandum_add"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/memorandum_add"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/memorandum_image"
+            android:scaleType="fitXY"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/memorandum_list"/>
+    </RelativeLayout>
+
+</LinearLayout>

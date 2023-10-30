@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NoticeAddActivity">
+
+    <RelativeLayout
+        android:id="@+id/memorandum_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/memorandum_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFF"
+            android:gravity="center"
+            android:text="Clock"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
+
+        <ImageView
+            android:id="@+id/clock_back"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/clock_save"
+            android:src="@drawable/notice_save"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/clock_image"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:background="@android:color/transparent"
+            android:hint="设置时间"
+            android:textSize="40sp"
+            android:id="@+id/clock_time"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:hint="最多输入10个字备注哦~"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:background="@null"
+            android:textSize="30sp"
+            android:layout_marginBottom="251dp"
+            android:id="@+id/clock_remark" />
+
+    </RelativeLayout>
+
+</LinearLayout>

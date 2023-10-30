@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/item_content"
         android:text="文本信息"
-        android:textColor="@color/black"
+        android:textColor="#0099FF"
         android:textSize="20sp"
         android:maxLines="2"
         android:ellipsize="end"

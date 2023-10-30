@@ -2,8 +2,10 @@ package com.hk.mynote;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,10 +30,11 @@ public class RecordActivity extends AppCompatActivity {
     private ListView listView;
     private MenuAdapter menuAdapter;
     private MyDBHelper myDBHelper;
-    private ImageView backHome, delete, saveNote,menu;
+    private ImageView backHome, delete, saveNote,menu,music_icon;
     private EditText et_content, title;
     private Integer sendId;
-
+    private MediaPlayer mediaPlayer;
+    private ObjectAnimator objectAnimator;
     private String[] menuList;
 
     @Override
@@ -143,6 +146,23 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
+        // music_icon
+        music_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    objectAnimator.cancel();
+                } else {
+                    mediaPlayer.start();
+                    objectAnimator.setRepeatCount(ObjectAnimator.INFINITE); // 设置动画重复次数为无限次
+                    objectAnimator.setRepeatMode(ObjectAnimator.RESTART); // 设置动画重复模式为重新开始
+                    objectAnimator.setDuration(4000);
+                    objectAnimator.start(); // 开始动画
+                }
+            }
+        });
+
     }
 
     // 获取控件对象
@@ -155,6 +175,9 @@ public class RecordActivity extends AppCompatActivity {
         menuList = getResources().getStringArray(R.array.menus);
         listView = findViewById(R.id.menu_list);
         menu = findViewById(R.id.menu);
+        music_icon = findViewById(R.id.music_icon);
+        mediaPlayer = MediaPlayer.create(RecordActivity.this, R.raw.the_true);
+        objectAnimator = ObjectAnimator.ofFloat(music_icon, "rotation", 0f, 360f);
 
         menuAdapter = new MenuAdapter(menuList, RecordActivity.this);
         listView.setAdapter(menuAdapter);

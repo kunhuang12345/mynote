@@ -36,6 +36,14 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:src="@drawable/music_icon"
+            android:layout_toStartOf="@id/menu"
+            android:layout_centerVertical="true"
+            android:id="@+id/music_icon"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/menu"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
@@ -94,12 +102,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:orientation="horizontal">
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="23dp"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:id="@+id/save_note"
             android:src="@drawable/save_note"/>
         <ImageView
