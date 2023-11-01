@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.hk.mynote.adapter.MenuAdapter;
 import com.hk.mynote.constans.Constants;
 import com.hk.mynote.dbhelper.MyDBHelper;
+import com.hk.mynote.util.CopyFileByUri;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -194,14 +197,19 @@ public class RecordActivity extends AppCompatActivity {
     }
 
 //    private boolean checkPermission() {
-//        int permission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+//        int permission = 0;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+//            permission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
+//        }
 //        return permission == PackageManager.PERMISSION_GRANTED;
 //    }
 //
 //    private void requestPermission() {
-//        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 1);
+//        }
 //    }
-
+//
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -233,12 +241,13 @@ public class RecordActivity extends AppCompatActivity {
         listView.setAdapter(menuAdapter);
 
         String uriString = Constants.MUSIC_MAP.get(String.valueOf(sendId));
+
         mediaPlayer = MediaPlayer.create(RecordActivity.this, R.raw.the_true);
         if (uriString != null) {
             mediaPlayer.reset();
-            Uri uri = Uri.parse(uriString);
+//            Uri uri = Uri.parse(uriString);
             try {
-                mediaPlayer.setDataSource(RecordActivity.this, uri);
+                mediaPlayer.setDataSource(uriString);
                 mediaPlayer.prepare();
             } catch (IOException e) {
                 Toast.makeText(RecordActivity.this, "音乐播放异常", Toast.LENGTH_SHORT).show();
@@ -250,6 +259,7 @@ public class RecordActivity extends AppCompatActivity {
                             Intent date = result.getData();
                             if (date != null) {
                                 musicUri = date.getData();
+
 //                                // 检查是否具有权限，如果没有，请求它。
 //                                if (checkPermission()) {
 //                                    // 你有权限，继续你的操作
@@ -258,13 +268,14 @@ public class RecordActivity extends AppCompatActivity {
 //                                    // 请求权限
 //                                    requestPermission();
 //                                }
+
                                 mediaPlayer.reset();
                                 try {
                                     if (musicUri != null) {
                                         mediaPlayer.setDataSource(RecordActivity.this, musicUri);
                                         mediaPlayer.prepare();
-                                        Constants.MUSIC_MAP.put(String.valueOf(sendId), musicUri.toString());
-                                        getContentResolver().takePersistableUriPermission(musicUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        String path = CopyFileByUri.getPath(RecordActivity.this, musicUri);
+                                        Constants.MUSIC_MAP.put(String.valueOf(sendId), path);
                                         mediaPlayer.start();
                                         objectAnimator.setRepeatCount(ObjectAnimator.INFINITE); // 设置动画重复次数为无限次
                                         objectAnimator.setRepeatMode(ObjectAnimator.RESTART); // 设置动画重复模式为重新开始
