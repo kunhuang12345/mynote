@@ -31,17 +31,17 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // 建表语句
-        db.execSQL("CREATE TABLE note(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, time TEXT)");
+        sqLiteDatabase.execSQL("CREATE TABLE note(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, time TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // 删除旧的表
-        db.execSQL("DROP TABLE IF EXISTS note");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS note");
         // 调用onCreate()方法来创建新的表
-        onCreate(db);
+        onCreate(sqLiteDatabase);
     }
 
     // 下面为对表的操作部分
@@ -53,7 +53,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         String time = sdf.format(date);
         contentValues.put("title", title);
         contentValues.put("content", content);
@@ -81,7 +80,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
         if (content!=null)contentValues.put("content", content);
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         String time = sdf.format(date);
         contentValues.put("time", time);
         int update = db.update("note", contentValues, "id=?", new String[]{String.valueOf(id)});

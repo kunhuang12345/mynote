@@ -32,13 +32,13 @@
             android:src="@drawable/back" />
 
         <ImageView
+            android:id="@+id/clock_save"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:id="@+id/clock_save"
-            android:src="@drawable/notice_save"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="-1dp"
+            android:src="@drawable/notice_save" />
 
     </RelativeLayout>
 
@@ -59,7 +59,7 @@
             android:layout_marginTop="150dp"
             android:background="@android:color/transparent"
             android:hint="设置时间"
-            android:textSize="40sp"
+            android:textSize="35sp"
             android:id="@+id/clock_time"/>
 
         <EditText

@@ -47,6 +47,10 @@ public class RecordActivity extends AppCompatActivity {
         backHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mediaPlayer != null) {
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
                 finish();
             }
         });
@@ -95,9 +99,7 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
-        if (sendId == -1) {
-            System.out.println(111);
-        } else {
+        if (sendId != -1) {
             String title = intent.getStringExtra("title");
             String content = intent.getStringExtra("content");
             et_content.setText(content);

@@ -4,14 +4,16 @@ public class Memorandum {
     private Integer id;
     private String remark;
     private String memorandumTime;
+    private Integer requestCode;
 
     public Memorandum() {
     }
 
-    public Memorandum(Integer id, String remark, String memorandumTime) {
+    public Memorandum(Integer id, String remark, String memorandumTime, Integer requestCode) {
         this.id = id;
         this.remark = remark;
         this.memorandumTime = memorandumTime;
+        this.requestCode = requestCode;
     }
 
     public Integer getId() {
@@ -36,5 +38,13 @@ public class Memorandum {
 
     public void setMemorandumTime(String memorandumTime) {
         this.memorandumTime = memorandumTime;
+    }
+
+    public Integer getRequestCode() {
+        return requestCode;
+    }
+
+    public void setRequestCode(Integer requestCode) {
+        this.requestCode = requestCode;
     }
 }
