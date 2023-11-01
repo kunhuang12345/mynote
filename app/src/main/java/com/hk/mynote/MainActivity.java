@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,10 +14,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hk.mynote.adapter.MyAdapter;
+import com.hk.mynote.constans.Constants;
 import com.hk.mynote.dbhelper.MyDBHelper;
 import com.hk.mynote.po.Note;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,12 +33,22 @@ public class MainActivity extends AppCompatActivity {
     private MyDBHelper myDBHelper;
     private MyAdapter myAdapter;
     private List<Note> resultList;
+    private SharedPreferences sp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sp = getSharedPreferences("data", MODE_PRIVATE);
+        String musicMap = sp.getString("music_map", null);
+        if (musicMap != null) {
+            // 使用Gson将JSON字符串转换回Map集合
+            Gson gson = new Gson();
+            Type type = new TypeToken<HashMap<String, String>>(){}.getType();
+            Constants.MUSIC_MAP = gson.fromJson(musicMap, type);
+        }
 
         noticeView = findViewById(R.id.notice);
         listView = findViewById(R.id.listview);
@@ -79,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                 Integer noteId = note.getId();
                                 boolean deleteData = myDBHelper.deleteData(noteId);
                                 if (deleteData) {
+                                    Constants.MUSIC_MAP.remove(noteId);
                                     Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(MainActivity.this, "删除失败！", Toast.LENGTH_SHORT).show();
@@ -118,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
         resultList = myDBHelper.queryData();
         myAdapter = new MyAdapter(resultList, MainActivity.this);
         listView.setAdapter(myAdapter);
+
+        String json = new Gson().toJson(Constants.MUSIC_MAP);
+        sp.edit().putString("music_map", json).apply();
     }
 
     // 数据回传时自动执行，接收回传数据
